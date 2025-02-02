@@ -1,0 +1,20 @@
+services:  
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    ports:
+      - 9443:9443
+    networks:
+      - proxy-network
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./data:/data
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
