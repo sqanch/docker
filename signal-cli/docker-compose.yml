@@ -1,0 +1,19 @@
+services:
+  signal-cli-rest-api:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: signal-cli
+    restart: unless-stopped
+    environment:
+      - MODE=json-rpc
+      #- MODE=normal
+    ports:
+      - "7080:8080"
+    volumes:
+      - "./signal-cli-config:/home/.local/share/signal-cli"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
