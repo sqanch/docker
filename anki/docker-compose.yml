@@ -1,0 +1,16 @@
+services:
+    anki-container:
+        image: ghcr.io/yangchuansheng/anki-sync-server:latest
+        container_name: anki
+        restart: unless-stopped
+        ports:
+        - "6001:8080"
+        volumes:
+        - ./data:/syncserver
+        networks:
+          - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
