@@ -1,0 +1,20 @@
+services:
+  motioneye:
+    # ToDo: Change from unstable dev/edge to stable GitHub registry release and Docker registry release, once available
+    image: ghcr.io/motioneye-project/motioneye:edge  # https://github.com/motioneye-project/motioneye/pkgs/container/motioneye
+    container_name: motioneye
+    hostname: "Igel Watch"
+    restart: unless-stopped
+    ports:
+      - "8081:9081"
+      - "8765:8765"
+    volumes:
+      - ./etc_motioneye:/etc/motioneye
+      - ./var_lib_motioneye:/var/lib/motioneye
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
