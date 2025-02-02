@@ -1,0 +1,20 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - SIGNUPS_ALLOWED=${SIGNUPS_ALLOWED}
+    ports:
+      - 5080:80
+      - 5443:443
+    networks:
+      - proxy-network
+    volumes:
+      - ./data:/data
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
