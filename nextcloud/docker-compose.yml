@@ -1,0 +1,46 @@
+services:
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud
+    container_name: nextcloud
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./config:/config
+      - ./data:/data
+    ports:
+      - 4080:80
+      - 4443:443
+    networks:
+      - proxy-network
+      - nextcloud-network
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+  mariadb:
+    image: lscr.io/linuxserver/mariadb
+    container_name: nextcloud-db
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PW}
+      - TZ=${TIMEZONE}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PW}
+    volumes:
+      - ./config_db:/config
+    networks:
+      - nextcloud-network
+    expose:
+      - 3306
+    restart: unless-stopped
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
+  nextcloud-network:
+    name: nextcloud-network
+    external: true
