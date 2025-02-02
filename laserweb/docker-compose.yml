@@ -1,0 +1,13 @@
+services:
+  laserweb:
+    image: joesantos/laserweb:latest
+    container_name: laserweb
+    ports:
+      - "2080:8000"
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    name: proxy-network
+    external: true
